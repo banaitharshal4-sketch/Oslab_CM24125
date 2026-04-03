@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operating System Algorithm Simulator</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            min-height: 100vh;
+        }
+        header {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .credit {
+            margin-top: 10px;
+            font-size: 1.2em;
+            font-style: italic;
+            color: #ffd700;
+        }
+        main {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .section {
+            background: rgba(255, 255, 255, 0.1);
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s;
+        }
+        .section:hover {
+            transform: translateY(-5px);
+        }
+        .section h2 {
+            margin-top: 0;
+            color: #ffd700;
+        }
+        input, button {
+            padding: 10px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+        }
+        button {
+            background: #ffd700;
+            color: #333;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #ffed4e;
+        }
+        #output {
+            margin-top: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+        }
+        footer {
+            text-align: center;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Operating System Algorithm Simulator</h1>
+        <div class="credit">Created by Harshal Banait</div>
+    </header>
+    <main>
+        <section class="section">
+            <h2>CPU Scheduling Simulator</h2>
+            <label for="processes">Enter processes (e.g., 1 2 3):</label>
+            <input type="text" id="processes" placeholder="Process IDs">
+            <label for="burst">Burst times (e.g., 5 3 8):</label>
+            <input type="text" id="burst" placeholder="Burst times">
+            <button onclick="simulateFCFS()">Simulate FCFS</button>
+            <div id="output"></div>
+        </section>
+        <!-- Add more sections for other algorithms like SJF, Round Robin, etc. -->
+    </main>
+    <footer>
+        <p>&copy; 2023 Harshal Banait. All rights reserved.</p>
+    </footer>
+    <script>
+        function simulateFCFS() {
+            const processes = document.getElementById('processes').value.split(' ').map(Number);
+            const burst = document.getElementById('burst').value.split(' ').map(Number);
+            if (processes.length !== burst.length) {
+                document.getElementById('output').innerText = 'Error: Mismatch in input lengths.';
+                return;
+            }
+            let output = 'Process\tBurst Time\tWaiting Time\tTurnaround Time\n';
+            let waiting = 0;
+            let totalWaiting = 0;
+            let totalTurnaround = 0;
+            for (let i = 0; i < processes.length; i++) {
+                const turnaround = waiting + burst[i];
+                output += `${processes[i]}\t\t${burst[i]}\t\t${waiting}\t\t${turnaround}\n`;
+                totalWaiting += waiting;
+                totalTurnaround += turnaround;
+                waiting += burst[i];
+            }
+            output += `\nAverage Waiting Time: ${(totalWaiting / processes.length).toFixed(2)}\n`;
+            output += `Average Turnaround Time: ${(totalTurnaround / processes.length).toFixed(2)}`;
+            document.getElementById('output').innerText = output;
+        }
+        // Add more JS functions for other algorithms
+    </script>
+</body>
+</html>
